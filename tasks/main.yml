@@ -9,7 +9,7 @@
     password: '{{ dc_password_service }}'
     state: present
     path: '{{ dc_ou_services }}'
-  with_items: "{{ services }}"
+  with_items: "{{ users.service }}"
 
 #####################################
 ### Create normal users
@@ -21,7 +21,7 @@
     password: '{{ dc_password_user }}'
     state: present
     path: '{{ dc_ou_user }}'
-  with_items: "{{ users }}"
+  with_items: "{{ users.standard }}"
 
 # Source: https://docs.ansible.com/ansible/latest/collections/community/windows/win_domain_ou_module.html
 # ansible-galaxy collection install community.windows
