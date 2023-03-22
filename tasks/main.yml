@@ -3,7 +3,7 @@
 ### Create service users
 #####################################
 
-- name: Ensure user svc_ldap is present in OU=Services,OU=Accounts,OU=Objects,DC=dt,DC=democloud
+- name: Ensure user svc_ldap is present
   community.windows.win_domain_user:
     name: '{{ item }}'
     password: '{{ dc_password_service }}'
@@ -15,7 +15,7 @@
 ### Create normal users
 #####################################
 
-- name: Ensure users are present in OU=User,OU=Accounts,OU=Objects,DC=dt,DC=democloud
+- name: Ensure users are present in
   community.windows.win_domain_user:
     name: '{{ item }}'
     password: '{{ dc_password_user }}'
