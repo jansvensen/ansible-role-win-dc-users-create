@@ -5,23 +5,23 @@
 
 - name: Ensure user svc_ldap is present
   community.windows.win_domain_user:
-    name: '{{ item }}'
+    name: '{{ item.service }}'
     password: '{{ dc_password_service }}'
     state: present
     path: '{{ dc_ou_services }}'
-  with_items: "{{ users.service }}"
+  with_items: "{{ users }}"
 
 #####################################
 ### Create normal users
 #####################################
 
-- name: Ensure users are present in
+- name: Ensure standard are present in
   community.windows.win_domain_user:
-    name: '{{ item }}'
+    name: '{{ item.standard }}'
     password: '{{ dc_password_user }}'
     state: present
     path: '{{ dc_ou_user }}'
-  with_items: "{{ users.standard }}"
+  with_items: "{{ users }}"
 
 # Source: https://docs.ansible.com/ansible/latest/collections/community/windows/win_domain_ou_module.html
 # ansible-galaxy collection install community.windows
