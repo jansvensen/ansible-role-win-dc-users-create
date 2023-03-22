@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - inf-dc-create-users
+    - ansible-role-win-dc-users-create

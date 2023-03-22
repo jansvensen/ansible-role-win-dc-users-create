@@ -1,2 +1,2 @@
 ---
-# vars file for inf-dc-create-users
+# vars file for ansible-role-win-dc-users-create
