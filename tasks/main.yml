@@ -1,17 +1,5 @@
 ---
 #####################################
-### Create admin users
-#####################################
-
-- name: Ensure admin users are present in given OU
-  community.windows.win_domain_user:
-    name: '{{ item }}'
-    password: '{{ dc_password_admin }}'
-    state: present
-    path: '{{ dc_ou_user_admin }}'
-  with_items: '{{ dc_user_admin }}'
-
-#####################################
 ### Create service users
 #####################################
 
