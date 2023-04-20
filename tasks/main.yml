@@ -30,7 +30,7 @@
 - name: Ensure standard users are present in given OU
   community.windows.win_domain_user:
     name: '{{ item }}'
-    password: '{{ dc_password_user_standard }}'
+    password: '{{ dc_password_user }}'
     state: present
     path: '{{ dc_ou_user_standard }}'
   with_items: '{{ dc_user_standard }}'
