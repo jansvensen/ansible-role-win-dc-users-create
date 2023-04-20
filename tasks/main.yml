@@ -6,7 +6,7 @@
 - name: Ensure admin users are present in given OU
   community.windows.win_domain_user:
     name: '{{ item }}'
-    password: '{{ win_password_admin }}'
+    password: '{{ dc_password_admin }}'
     state: present
     path: '{{ dc_ou_user_admin }}'
   with_items: '{{ dc_user_admin }}'
@@ -18,7 +18,7 @@
 - name: Ensure service users are present in given OU
   community.windows.win_domain_user:
     name: '{{ item }}'
-    password: '{{ win_password_service }}'
+    password: '{{ dc_password_service }}'
     state: present
     path: '{{ dc_ou_user_service }}'
   with_items: '{{ dc_user_service }}'
@@ -30,7 +30,7 @@
 - name: Ensure standard users are present in given OU
   community.windows.win_domain_user:
     name: '{{ item }}'
-    password: '{{ win_password_user_standard }}'
+    password: '{{ dc_password_user_standard }}'
     state: present
     path: '{{ dc_ou_user_standard }}'
   with_items: '{{ dc_user_standard }}'
