@@ -6,7 +6,7 @@
 - name: Ensure user svc_ldap is present
   community.windows.win_domain_user:
     name: '{{ item }}'
-    password: '{{ dc_password_service }}'
+    password: '{{ win_password_service }}'
     state: present
     path: '{{ dc_ou_services }}'
   with_items: "{{ service }}"
@@ -18,7 +18,7 @@
 - name: Ensure users are present
   community.windows.win_domain_user:
     name: '{{ item }}'
-    password: '{{ dc_password_user }}'
+    password: '{{ win_password_user }}'
     state: present
     path: '{{ dc_ou_user }}'
   with_items: "{{ standard }}"
