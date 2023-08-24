@@ -22,6 +22,7 @@
     state: present
     path: '{{ dc_ou_user_standard }}'
   with_items: '{{ dc_user_standard }}'
+  when: dc_user_standard is defined
 
 #####################################
 ### Create standard users dynamically
@@ -32,7 +33,8 @@
     name: '{{ item.0 | replace('##', item.1) }}'
     password: '{{ dc_password_user }}'
     state: present
-    path: '{{ domain_ou_user }}'
+    path: '{{ dc_ou_user_standard }}'
   with_nested:
   - "{{ dc_user_standard_dynamic }}"
   - "{{ range(1, dc_domain_count + 1, 1) | list }}"
+  when: dc_user_standard_dynamic is defined
