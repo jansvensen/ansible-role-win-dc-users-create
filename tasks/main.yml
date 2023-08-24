@@ -28,9 +28,9 @@
 ### Create standard users dynamically
 #####################################
 
-- name: Ensure standard users are present in given OU
+- name: Create standard users dynamically
   microsoft.ad.user:
-    name: '{{ item.0 | replace('##', item.1) }}'
+    name: "{{ item.0 | replace('##', item.1) }}"
     password: '{{ dc_password_user }}'
     state: present
     path: '{{ dc_ou_user_standard }}'
