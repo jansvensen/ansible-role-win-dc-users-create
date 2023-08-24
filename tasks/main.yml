@@ -35,6 +35,6 @@
     state: present
     path: '{{ dc_ou_user_standard }}'
   with_nested:
-  - "{{ dc_user_standard_dynamic }}"
-  - "{{ range(1, dc_domain_count + 1, 1) | list }}"
+  - '{{ dc_user_standard_dynamic }}'
+  - '{{ range(1, dc_domain_count + 1, 1) | list }}'
   when: dc_user_standard_dynamic is defined
