@@ -33,7 +33,7 @@
     name: "{{ item.0 | replace('##', item.1) }}"
     password: '{{ dc_password_user }}'
     state: present
-    path: '{{ dc_ou_user_standard }}'
+    path: "{{ dc_ou_user_standard }}| replace('##', item.1) }}"
   with_nested:
   - '{{ dc_user_standard_dynamic }}'
   - '{{ range(1, dc_domain_count + 1, 1) | list }}'
