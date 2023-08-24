@@ -30,7 +30,7 @@
 
 - name: Printe the standard users dynamically
   ansible.builtin.debug:
-    msg: "Name: {{ item.0 | replace('##', item.1) }} - Path: {{ domain_ou_user }}| replace('##', item.1) }}"
+    msg: "Name: {{ item.0 | replace('##', item.1) }} - Path: {{ domain_ou_user | replace('##', item.1) }}"
   with_nested:
   - '{{ dc_user_standard_dynamic }}'
   - '{{ range(1, dc_domain_count + 1, 1) | list }}'
