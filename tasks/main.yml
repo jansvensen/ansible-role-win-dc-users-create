@@ -28,11 +28,6 @@
 ### Create standard users dynamically
 #####################################
 
-- name: Test Output number values
-  debug:
-    msg: "{{ %02d | item}}"
-  with_items: '{{ range(1, dc_domain_count + 1, 1) | list }}'
-
 - name: Create standard users dynamically
   microsoft.ad.user:
     name: "{{ item.0 | replace('##', item.1) }}"
