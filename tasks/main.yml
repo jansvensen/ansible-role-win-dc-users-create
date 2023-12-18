@@ -3,7 +3,7 @@
 ### Create service users
 #####################################
 
-- name: Create service users
+- name: Create service users statically
   microsoft.ad.user:
     name: '{{ item }}'
     password: '{{ dc_password_service }}'
