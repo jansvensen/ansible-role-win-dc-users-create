@@ -9,6 +9,8 @@
     password: '{{ dc_password_service }}'
     state: present
     path: '{{ dc_ou_user_service }}'
+    password_never_expires: true
+    user_cannot_change_password: true
   with_items: '{{ dc_user_service }}'
 
 #####################################
@@ -21,6 +23,8 @@
     password: '{{ dc_password_user }}'
     state: present
     path: '{{ dc_ou_user_standard }}'
+    password_never_expires: true
+    user_cannot_change_password: true
   with_items: '{{ dc_user_standard }}'
   when: dc_user_standard is defined
 
@@ -32,6 +36,8 @@
   microsoft.ad.user:
     name: "{{ item.0 | replace('##', item.1) }}"
     password: '{{ dc_password_user }}'
+    password_never_expires: true
+    user_cannot_change_password: true
     state: present
     path: "{{ dc_ou_user_standard | replace('##', item.1) }}"
   with_nested:
