@@ -6,12 +6,12 @@
 - name: Create service users statically
   microsoft.ad.user:
     name: '{{ item }}'
-    password: '{{ dc_password_service }}'
+    password: '{{ dc.domain.passwords.service }}'
     state: present
-    path: '{{ dc_ou_accounts_service }}'
+    path: '{{ dc.domain.ou.accounts_service }}'
     password_never_expires: true
     user_cannot_change_password: true
-  with_items: '{{ dc_user_service }}'
+  with_items: '{{ dc.domain.user.service }}'
 
 #####################################
 ### Create standard users statically
@@ -20,13 +20,13 @@
 - name: Create standard users statically
   microsoft.ad.user:
     name: '{{ item }}'
-    password: '{{ dc_password_user }}'
+    password: '{{ dc.domain.passwords.user }}'
     state: present
-    path: '{{ dc_ou_accounts_user }}'
+    path: '{{ dc.domain.ou.accounts_user }}'
     password_never_expires: true
     user_cannot_change_password: true
-  with_items: '{{ dc_user_standard }}'
-  when: dc_user_standard is defined
+  with_items: '{{ dc.domain.user.standard }}'
+  when: dc.domain.user.standard is defined
 
 #####################################
 ### Create standard users dynamically
@@ -35,12 +35,12 @@
 - name: Create standard users dynamically
   microsoft.ad.user:
     name: "{{ item.0 | replace('##', item.1) }}"
-    password: '{{ dc_password_user }}'
+    password: '{{ dc.domain.passwords.user }}'
     password_never_expires: true
     user_cannot_change_password: true
     state: present
-    path: "{{ dc_ou_accounts_user | replace('##', item.1) }}"
+    path: "{{ dc.domain.ou.accounts_user | replace('##', item.1) }}"
   with_nested:
-  - '{{ dc_user_standard_dynamic }}'
+  - '{{ dc.domain.user.standard_dynamic }}'
   - '{{ range(1, dc_domain_count + 1, 1) | list }}'
-  when: dc_user_standard_dynamic is defined
+  when: dc.domain.user.standard_dynamic is defined
