@@ -8,7 +8,7 @@
     name: '{{ item }}'
     password: '{{ dc_password_service }}'
     state: present
-    path: '{{ dc_ou_user_service }}'
+    path: '{{ dc_ou_accounts_service }}'
   with_items: '{{ dc_user_service }}'
 
 #####################################
@@ -20,7 +20,7 @@
     name: '{{ item }}'
     password: '{{ dc_password_user }}'
     state: present
-    path: '{{ dc_ou_user_standard }}'
+    path: '{{ dc_ou_accounts_standard }}'
   with_items: '{{ dc_user_standard }}'
   when: dc_user_standard is defined
 
@@ -33,7 +33,7 @@
     name: "{{ item.0 | replace('##', item.1) }}"
     password: '{{ dc_password_user }}'
     state: present
-    path: "{{ dc_ou_user_standard | replace('##', item.1) }}"
+    path: "{{ dc_ou_accounts_standard | replace('##', item.1) }}"
   with_nested:
   - '{{ dc_user_standard_dynamic }}'
   - '{{ range(1, dc_domain_count + 1, 1) | list }}'
