@@ -31,7 +31,7 @@
   when: dc_user_standard is defined
 
 #####################################
-### Create standard users dynamically
+### Create standard users dynamically - the dT way
 #####################################
 
 - name: Create standard users dynamically
@@ -46,4 +46,23 @@
   with_nested:
   - '{{ dc_user_standard_dynamic }}'
   - '{{ range(1, dc_domain_count + 1, 1) | list }}'
+  when: dc_user_standard_dynamic_dt is defined
+
+#####################################
+### Create standard users dynamically
+#####################################
+
+- name: Create standard users dynamically
+  microsoft.ad.user:
+    name: "{{ dc_users_dynamic.base_first_name }} {{ dc_users_dynamic.base_last_name }} {{ item }}" # e.g., Test User 1
+    firstname: "{{ dc_users_dynamic.base_first_name }}"
+    surname: "{{ dc_users_dynamic.base_last_name }}"
+    samaccountname: "{{ dc_users_dynamic.base_first_name | lower | first }}{{ dc_users_dynamic.base_last_name | lower }}{{ item }}" # e.g., tuser1
+    upn: "{{ dc_users_dynamic.base_first_name | lower | first }}{{ dc_users_dynamic.base_last_name | lower }}{{ item }}@{{ dc_domain_name }}"
+    path: "{{ dc_ous_static.users.path }}" # Distinguished Name of the OU
+    password: "{{ dc_password_user }}"
+    enabled: true
+    state: present
+  loop: "{{ range(1, user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
+  register: new_users_result
   when: dc_user_standard_dynamic is defined
