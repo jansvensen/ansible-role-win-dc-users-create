@@ -64,6 +64,6 @@
     password: "{{ dc_password_user }}"
     enabled: true
     state: present
-  loop: "{{ range(1, user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
+  loop: "{{ range(1, dc_user_standard_dynamic.user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
   register: new_users_result
   when: dc_user_standard_dynamic is defined
