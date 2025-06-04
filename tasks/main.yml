@@ -35,7 +35,7 @@
 ### Create standard users dynamically - the dT way
 #####################################
 
-- name: Create standard users dynamically
+- name: Create standard users dynamically - the dT way
   microsoft.ad.user:
     name: "{{ item.0 | replace('##', item.1) }}"
     password: '{{ dc_password_user }}'
@@ -59,7 +59,7 @@
     firstname: "{{ dc_user_standard_dynamic.base_first_name }}"
     surname: "{{ dc_user_standard_dynamic.base_last_name }}"
     upn: "{{ dc_user_standard_dynamic.base_first_name | lower | first }}{{ dc_user_standard_dynamic.base_last_name | lower }}{{ item }}@{{ dc_domain_name }}"
-    path: "{{ dc_ous_static.user.path }}" # Distinguished Name of the OU
+    path: "{{ dc_user_standard_dynamic.ou_path }}" # Distinguished Name of the OU
     password: "{{ dc_password_user }}"
     enabled: true
     state: present
