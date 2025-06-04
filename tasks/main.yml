@@ -13,6 +13,7 @@
     update_password: always
     user_cannot_change_password: true
   with_items: '{{ dc_user_service }}'
+  when: dc_user_service is defined
 
 #####################################
 ### Create standard users statically
