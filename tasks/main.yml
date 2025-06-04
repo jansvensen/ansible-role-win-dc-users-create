@@ -66,3 +66,11 @@
   loop: "{{ range(1, dc_user_standard_dynamic.user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
   register: new_users_result
   when: dc_user_standard_dynamic is defined
+
+- name: Display created users and their sAMAccountNames (for verification)
+  ansible.builtin.debug:
+    msg: "Created user: {{ item.upn }} (Display Name: {{ item.name }})"
+  loop: "{{ new_users_result.results }}"
+  loop_control:
+    label: "{{ item.upn }}"
+  when: item.changed # Only show users that were actually created/changed
