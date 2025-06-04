@@ -55,11 +55,11 @@
 
 - name: Create standard users dynamically
   microsoft.ad.user:
-    name: "{{ dc_users_dynamic.base_first_name }} {{ dc_users_dynamic.base_last_name }} {{ item }}" # e.g., Test User 1
-    firstname: "{{ dc_users_dynamic.base_first_name }}"
-    surname: "{{ dc_users_dynamic.base_last_name }}"
-    samaccountname: "{{ dc_users_dynamic.base_first_name | lower | first }}{{ dc_users_dynamic.base_last_name | lower }}{{ item }}" # e.g., tuser1
-    upn: "{{ dc_users_dynamic.base_first_name | lower | first }}{{ dc_users_dynamic.base_last_name | lower }}{{ item }}@{{ dc_domain_name }}"
+    name: "{{ dc_user_standard_dynamic.base_first_name }} {{ dc_user_standard_dynamic.base_last_name }} {{ item }}" # e.g., Test User 1
+    firstname: "{{ dc_user_standard_dynamic.base_first_name }}"
+    surname: "{{ dc_user_standard_dynamic.base_last_name }}"
+    samaccountname: "{{ dc_user_standard_dynamic.base_first_name | lower | first }}{{ dc_user_standard_dynamic.base_last_name | lower }}{{ item }}" # e.g., tuser1
+    upn: "{{ dc_user_standard_dynamic.base_first_name | lower | first }}{{ dc_user_standard_dynamic.base_last_name | lower }}{{ item }}@{{ dc_domain_name }}"
     path: "{{ dc_ous_static.users.path }}" # Distinguished Name of the OU
     password: "{{ dc_password_user }}"
     enabled: true
