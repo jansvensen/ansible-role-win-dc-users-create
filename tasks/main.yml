@@ -71,33 +71,25 @@
 ### Create a random number of standard users dynamically
 #####################################
 
-- name: Create a random number of standard users dynamically
 - name: Generate a random number of users to create (run_once)
   ansible.builtin.set_fact:
     num_users_to_create: "{{ range(dc_user_standard_dynamic_random.min_users, dc_user_standard_dynamic_random.max_users + 1) | random }}"
-  run_once: true # Ensures this fact is generated only once for the entire play
+when: dc_user_standard_dynamic_random is defined
 
 - name: Debug the number of users to create
   ansible.builtin.debug:
     msg: "Creating {{ num_users_to_create }} users."
-  run_once: true
+when: dc_user_standard_dynamic_random is defined
 
-- name: Create Active Directory users
+- name: Create a random number of standard users dynamically
   microsoft.ad.user:
-    name: "{{ first_name_prefix }}{{ item.index }}" # e.g., AnsibleUser1, AnsibleUser2
-    firstname: "{{ first_name_prefix }}"
+    name: "{{ dc_user_standard_dynamic_random.first_name_prefix }}{{ item.index }}" # e.g., AnsibleUser1, AnsibleUser2
+    firstname: "{{ dc_user_standard_dynamic_random.first_name_prefix }}"
     surname: "{{ item.random_suffix }}" # The random number as surname
-    password: "{{ user_password }}"
+    password: "{{ dc_password_user }}"
     enabled: true
     state: present
-    path: "{{ ad_user_ou }}"
-    domain_username: "{{ ad_admin_username }}"
-    domain_password: "{{ ad_admin_password }}"
-    server: "{{ ad_server }}"
-    # password_never_expires: true # Optional: Consider security implications
-    # user_cannot_change_password: true # Optional: Consider security implications
-    # account_locked: false # Ensures the account is not locked on creation if password is provided
-    # You might also want to set other attributes like email, description, etc.
+    path: "{{ dc_user_standard_dynamic_random.ou_path }}"
   loop: "{{ range(1, num_users_to_create + 1) | product([]) | list }}" # Create a list of numbers from 1 to num_users_to_create
   loop_control:
     loop_var: user_item # Custom loop variable name for clarity
@@ -110,5 +102,5 @@
       # but different numbers for each user.
       # We concatenate 'ansible_play_batch' (which is constant for a given play run) 
       # with 'user_item.0' (the user index) for a unique seed per user.
-      # 10000 | random will generate a number between 0 and 9999.
-when: dc_user_standard_dynamic_random is defined
+        # 10000 | random will generate a number between 0 and 9999.
+  when: dc_user_standard_dynamic_random is defined
