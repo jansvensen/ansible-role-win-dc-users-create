@@ -91,7 +91,7 @@
       {%   set users = users + [{
             'index': i | string,
             'random_suffix': random_num | string,
-            'full_name': first_name_prefix + (i | string)
+            'full_name': dc_user_standard_dynamic_random.first_name_prefix + (i | string)
           }] %}
       {% endfor %}
       {{ users }}
