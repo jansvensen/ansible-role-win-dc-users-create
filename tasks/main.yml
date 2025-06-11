@@ -85,8 +85,8 @@
   ansible.builtin.set_fact:
     user_data_for_loop: >
       {% set users = [] %}
-      {% for i in range(1, num_users_to_create + 1) %}
-      {%   set current_seed = (ansible_play_batch | join('-')) + i | string %}
+      {% for i in range(1, (num_users_to_create | int) + 1) %}
+      {%   set current_seed = (ansible_play_batch | join('-')) + (i | string) %}
       {%   set random_num = (10000 | random(seed=current_seed)) %}
       {%   set users = users + [{
             'index': i | string,
