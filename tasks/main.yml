@@ -90,17 +90,11 @@
     enabled: true
     state: present
     path: "{{ dc_user_standard_dynamic_random.ou_path }}"
-  loop: "{{ range(1, num_users_to_create + 1) | product([]) | list }}" # Create a list of numbers from 1 to num_users_to_create
+  loop: "{{ range(1, num_users_to_create + 1) | product([]) | list }}"
   loop_control:
-    loop_var: user_item # Custom loop variable name for clarity
+    loop_var: user_item
   vars:
-    # Generate a new random number for each user's surname
     user_item:
-      index: "{{ user_item.0 }}" # Extract the number from the range
-      random_suffix: "{{ 10000 | random(seed=(ansible_play_batch | join('') + user_item.0 | string)) }}"
-      # The 'random' filter with a seed ensures reproducibility within a play if you rerun, 
-      # but different numbers for each user.
-      # We concatenate 'ansible_play_batch' (which is constant for a given play run) 
-      # with 'user_item.0' (the user index) for a unique seed per user.
-        # 10000 | random will generate a number between 0 and 9999.
-  when: dc_user_standard_dynamic_random is defined
+      index: "{{ user_item.0 }}"
+      random_suffix: "{{ (10000 | random(seed=(ansible_play_batch | join('-')) + user_item.0 | string)) | string }}"
+when: dc_user_standard_dynamic_random is defined
