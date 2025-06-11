@@ -84,11 +84,3 @@
   loop: "{{ range(1, (dc_user_standard_dynamic_random.user_count | int) + 1) | list }}" # Loop from 1 to user_count (inclusive)
   register: new_users_result
   when: dc_user_standard_dynamic_random is defined
-  
-- name: Output details of created users
-  debug:
-    msg: "Created user: Name - {{ item.item.name }}, UPN - {{ item.item.upn }}"
-  loop: "{{ new_users_result.results }}"
-  loop_control:
-    label: "{{ item.item.name }}" # Makes the output more readable
-  when: new_users_result is defined and new_users_result.results is defined
