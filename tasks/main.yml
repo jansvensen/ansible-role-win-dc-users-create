@@ -71,48 +71,16 @@
 ### Create a random number of standard users dynamically
 #####################################
 
-- name: Generate a random number of users to create (run_once)
-  ansible.builtin.set_fact:
-    num_users_to_create: "{{ range(dc_user_standard_dynamic_random.min_users, dc_user_standard_dynamic_random.max_users + 1) | random }}"
-  when: dc_user_standard_dynamic_random is defined
-
-- name: Debug the number of users to create
-  ansible.builtin.debug:
-    msg: "Creating {{ num_users_to_create }} users."
-  when: dc_user_standard_dynamic_random is defined
-
-- name: Prepare user data for loop (ensure all components are strings)
-  ansible.builtin.set_fact:
-    user_data_for_loop: >
-      {% set users = [] %}
-      {% for i in range(1, (num_users_to_create | int) + 1) %}
-      {%   set current_seed = (ansible_play_batch | join('-')) + (i | string) %}
-      {%   set random_num = (10000 | random(seed=current_seed)) %}
-      {%   set users = users + [{
-            'index': i | string,
-            'random_suffix': random_num | string,
-            'full_name': dc_user_standard_dynamic_random.first_name_prefix + (i | string)
-          }] %}
-      {% endfor %}
-      {{ users }}
-  when: dc_user_standard_dynamic_random is defined
- 
-- name: Debug prepared user data (final list)
-  ansible.builtin.debug:
-    var: user_data_for_loop
-    verbosity: 0 # Show this only with -vv or higher
-  when: dc_user_standard_dynamic_random is defined
-  
-- name: Create Active Directory users
+- name: Create a random number of standard users dynamically
   microsoft.ad.user:
-    name: "{{ item.full_name }}"        # Use the pre-prepared full_name string
-    firstname: "{{ dc_user_standard_dynamic_random.first_name_prefix }}"
-    surname: "{{ item.random_suffix }}" # This is already a string now
+    name: "{{ dc_user_standard_dynamic_random.base_first_name }} {{ dc_user_standard_dynamic_random.base_last_name }} {{ item }}" # e.g., Test User 1
+    firstname: "{{ dc_user_standard_dynamic_random.base_first_name }}"
+    surname: "{{ dc_user_standard_dynamic_random.base_last_name }}"
+    upn: "{{ dc_user_standard_dynamic_random.base_first_name | lower | first }}{{ dc_user_standard_dynamic_random.base_last_name | lower }}{{ item }}@{{ dc_domain_name }}"
+    path: "{{ dc_user_standard_dynamic_random.ou_path }}" # Distinguished Name of the OU
     password: "{{ dc_password_user }}"
     enabled: true
     state: present
-    path: "{{ dc_user_standard_dynamic_random.ou_path }}"
-  loop: "{{ user_data_for_loop }}" # Loop directly over the prepared list
-  loop_control:
-    label: "Creating user {{ item.full_name }}" # More descriptive label
+  loop: "{{ range(1, dc_user_standard_dynamic_random.user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
+  register: new_users_result
   when: dc_user_standard_dynamic_random is defined
