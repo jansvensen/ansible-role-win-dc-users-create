@@ -100,7 +100,7 @@
 - name: Debug prepared user data
   ansible.builtin.debug:
     var: user_data_for_loop
-    verbosity: 2 # Show this only with -vv or higher
+    verbosity: 0 # Show this only with -vv or higher
   when: dc_user_standard_dynamic_random is defined
   
 - name: Create Active Directory users
