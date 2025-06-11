@@ -97,10 +97,21 @@
       {{ users }}
   when: dc_user_standard_dynamic_random is defined
 
-- name: Debug prepared user data
+- name: Debug raw string output of user data
+  ansible.builtin.debug:
+    var: user_data_for_loop_raw_string
+    verbosity: 0 # Show this always with -vvv
+  when: dc_user_standard_dynamic_random is defined
+  
+- name: Convert raw string to list
+  ansible.builtin.set_fact:
+    user_data_for_loop: "{{ user_data_for_loop_raw_string | from_yaml }}" # Use from_yaml for robustness
+  when: dc_user_standard_dynamic_random is defined
+  
+- name: Debug prepared user data (final list)
   ansible.builtin.debug:
     var: user_data_for_loop
-    verbosity: 0 # Show this only with -vv or higher
+    verbosity: 2 # Show this only with -vv or higher
   when: dc_user_standard_dynamic_random is defined
   
 - name: Create Active Directory users
