@@ -97,4 +97,4 @@
     user_item:
       index: "{{ user_item.0 }}"
       random_suffix: "{{ (10000 | random(seed=(ansible_play_batch | join('-')) + user_item.0 | string)) | string }}"
-when: dc_user_standard_dynamic_random is defined
+  when: dc_user_standard_dynamic_random is defined
