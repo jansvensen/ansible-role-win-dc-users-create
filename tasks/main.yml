@@ -74,12 +74,12 @@
 - name: Generate a random number of users to create (run_once)
   ansible.builtin.set_fact:
     num_users_to_create: "{{ range(dc_user_standard_dynamic_random.min_users, dc_user_standard_dynamic_random.max_users + 1) | random }}"
-when: dc_user_standard_dynamic_random is defined
+  when: dc_user_standard_dynamic_random is defined
 
 - name: Debug the number of users to create
   ansible.builtin.debug:
     msg: "Creating {{ num_users_to_create }} users."
-when: dc_user_standard_dynamic_random is defined
+  when: dc_user_standard_dynamic_random is defined
 
 - name: Create a random number of standard users dynamically
   microsoft.ad.user:
