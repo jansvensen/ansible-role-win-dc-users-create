@@ -97,7 +97,7 @@
     # Generate a new random number for each user's surname
     user_item:
       index: "{{ user_item.0 }}" # Extract the number from the range
-      random_suffix: "{{ 10000 | random(seed=ansible_play_batch + user_item.0 | string) }}" 
+      random_suffix: "{{ 10000 | random(seed=(ansible_play_batch | join('') + user_item.0 | string)) }}"
       # The 'random' filter with a seed ensures reproducibility within a play if you rerun, 
       # but different numbers for each user.
       # We concatenate 'ansible_play_batch' (which is constant for a given play run) 
