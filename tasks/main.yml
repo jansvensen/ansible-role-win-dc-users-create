@@ -89,7 +89,7 @@
       {%   set current_seed = (ansible_play_batch | join('-')) + i | string %}
       {%   set random_num = (10000 | random(seed=current_seed)) %}
       {%   set users = users + [{
-            'index': i | string, # Ensure index is string from the start
+            'index': i | string,
             'random_suffix': random_num | string,
             'full_name': first_name_prefix + (i | string)
           }] %}
