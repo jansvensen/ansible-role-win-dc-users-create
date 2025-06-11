@@ -66,3 +66,21 @@
   loop: "{{ range(1, dc_user_standard_dynamic.user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
   register: new_users_result
   when: dc_user_standard_dynamic is defined
+
+#####################################
+### Create a random number of standard users dynamically
+#####################################
+
+- name: Create standard users dynamically
+  microsoft.ad.user:
+    name: "{{ dc_user_standard_dynamic.base_first_name }} {{ dc_user_standard_dynamic.base_last_name }} {{ item }}" # e.g., Test User 1
+    firstname: "{{ dc_user_standard_dynamic.base_first_name }}"
+    surname: "{{ dc_user_standard_dynamic.base_last_name }}"
+    upn: "{{ dc_user_standard_dynamic.base_first_name | lower | first }}{{ dc_user_standard_dynamic.base_last_name | lower }}{{ item }}@{{ dc_domain_name }}"
+    path: "{{ dc_user_standard_dynamic.ou_path }}" # Distinguished Name of the OU
+    password: "{{ dc_password_user }}"
+    enabled: true
+    state: present
+  loop: "{{ range(1, dc_user_standard_dynamic_random.user_count + 1) | list }}" # Loop from 1 to user_count (inclusive)
+  register: new_users_result
+  when: dc_user_standard_dynamic_random is defined
